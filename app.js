@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('./models');
 // const { authorsRouter } = require('./src/routes/authorsRoutes');
 const { booksRouter } = require('./src/routes/booksRoutes');
-// const { publishersRouter } = require('./src/routes/publishersRoutes');
+const { publishersRouter } = require('./src/routes/publishersRoutes');
 const { Books, Authors, Publishers } = require('./models');
 
 Authors.hasMany(Books);
@@ -23,7 +23,7 @@ app.use('/books', booksRouter);
 // app.use('/authors', authorsRouter);
 
 // publishers route
-// app.use('/publishers', publishersRouter);
+app.use('/publishers', publishersRouter);
 
 // 404 not found
 app.use(function (req, res, next) {
