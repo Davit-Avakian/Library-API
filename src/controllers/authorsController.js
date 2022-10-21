@@ -1,4 +1,4 @@
-const client = require('../config/connection');
+const client = require('../../config/connection');
 const { internalServerError, getDataByField } = require('../utils/utils');
 
 exports.getAuthorsByCentury = async (req, res) => {
@@ -7,7 +7,7 @@ exports.getAuthorsByCentury = async (req, res) => {
 
     const { rows } = await client.query(
       'SELECT * FROM author WHERE birth_year >= $1 AND birth_year <= $2',
-      [century * 100, century * 100 + 100]
+      [(century - 1) * 100, century * 100]
     );
 
     res.status(200).json({ status: 'success', data: rows });

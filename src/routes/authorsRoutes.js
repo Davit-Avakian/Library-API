@@ -3,7 +3,7 @@ const {
   getAuthorsByCentury,
   addNewAuthor,
   getCoAuthorByBookId
-} = require('../controllers/authorsController');
+} = require('../controllers/authorsController.js');
 
 const router = Router();
 

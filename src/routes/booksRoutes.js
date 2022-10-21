@@ -4,7 +4,7 @@ const {
   getBooksByAuthorId,
   addNewBook,
   updateBookTitleById,
-  deleteBookById,
+  // deleteBookById,
   getBooksByPublisherId,
   getBookById,
   getBookByGenre,
@@ -21,7 +21,7 @@ router
   .get('/author/:authorId/:genre', getAuthorBooksByGenre)
   .get('/publisher/:publisherId', getBooksByPublisherId)
   .post('/', addNewBook)
-  .put('/:bookId', updateBookTitleById)
-  .delete('/:bookId', deleteBookById);
+  .put('/:bookId', updateBookTitleById);
+// .delete('/:bookId', deleteBookById);
 
 module.exports.booksRouter = router;

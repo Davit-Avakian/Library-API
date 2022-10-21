@@ -1,7 +1,15 @@
 const express = require('express');
-const { authorsRouter } = require('./routes/authorsRoutes');
-const { booksRouter } = require('./routes/booksRoutes');
-const { publishersRouter } = require('./routes/publishersRoutes');
+const db = require('./models');
+// const { authorsRouter } = require('./src/routes/authorsRoutes');
+const { booksRouter } = require('./src/routes/booksRoutes');
+// const { publishersRouter } = require('./src/routes/publishersRoutes');
+const { Books, Authors, Publishers } = require('./models');
+
+Authors.hasMany(Books);
+Books.belongsTo(Authors);
+
+Publishers.hasMany(Books, { foreignKey: 'publisher_id' });
+Books.belongsTo(Publishers);
 
 const app = express();
 
@@ -12,10 +20,10 @@ app.use('/books', booksRouter);
 
 
 // authors route
-app.use('/authors', authorsRouter);
+// app.use('/authors', authorsRouter);
 
 // publishers route
-app.use('/publishers', publishersRouter);
+// app.use('/publishers', publishersRouter);
 
 // 404 not found
 app.use(function (req, res, next) {
@@ -30,4 +38,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status).json({ status: 'error', message: err.message });
 });
 
-app.listen(5000);
+db.sequelize.sync({ logging: false }).then(() => {
+  app.listen(5000);
+});

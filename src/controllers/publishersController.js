@@ -1,4 +1,4 @@
-const client = require('../config/connection');
+const client = require('../../config/connection');
 const { internalServerError } = require('../utils/utils');
 
 exports.getPublishersByAuthorId = async (req, res) => {
