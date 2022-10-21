@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
+      authors_ids: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER)
+      },
+
       establishment_date: {
         type: DataTypes.DATE,
         allowNull: false,

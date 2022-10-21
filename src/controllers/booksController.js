@@ -127,14 +127,18 @@ exports.updateBookTitleById = async (req, res) => {
   }
 };
 
-// exports.deleteBookById = async (req, res) => {
-//   try {
-//     const { bookId } = req.params;
+exports.deleteBookById = async (req, res) => {
+  try {
+    const { bookId } = req.params;
 
-//     const { rows } = await client.query('DELETE FROM books WHERE id = $1 RETURNING *', [bookId]);
+    const deletedBook = await Books.destroy({
+      where: {
+        id: bookId
+      }
+    });
 
-//     res.status(200).json({ status: 'success', data: rows[0] });
-//   } catch ({ message }) {
-//     res.status(500).json(internalServerError(message));
-//   }
-// };
+    res.status(200).json({ status: 'success', data: deletedBook });
+  } catch ({ message }) {
+    res.status(500).json(internalServerError(message));
+  }
+};
