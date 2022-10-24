@@ -121,7 +121,7 @@ exports.updateBookTitleById = async (req, res) => {
       }
     );
 
-    res.status(200).json({ status: 'success', data });
+    res.status(204).json({ status: 'success', data });
   } catch ({ message }) {
     res.status(500).json(internalServerError());
   }
@@ -137,7 +137,7 @@ exports.deleteBookById = async (req, res) => {
       }
     });
 
-    res.status(200).json({ status: 'success', data: deletedBook });
+    res.status(204).json({ status: 'success', data: deletedBook });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }
