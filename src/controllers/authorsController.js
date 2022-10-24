@@ -1,16 +1,23 @@
-const client = require('../../config/connection');
-const { internalServerError, getDataByField } = require('../utils/utils');
+const { internalServerError } = require('../utils/utils');
+const { Authors, Books, Publishers } = require('../../models');
+const { Op } = require('sequelize');
 
 exports.getAuthorsByCentury = async (req, res) => {
   try {
     const { century } = req.params;
 
-    const { rows } = await client.query(
-      'SELECT * FROM author WHERE birth_year >= $1 AND birth_year <= $2',
-      [(century - 1) * 100, century * 100]
-    );
+    const data = await Authors.findAll({
+      where: {
+        birth_year: {
+          [Op.and]: {
+            [Op.gte]: (century - 1) * 100 + 1,
+            [Op.lte]: century * 100
+          }
+        }
+      }
+    });
 
-    res.status(200).json({ status: 'success', data: rows });
+    res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }
@@ -20,14 +27,19 @@ exports.getCoAuthorByBookId = async (req, res) => {
   try {
     const { bookId } = req.params;
 
-    const { rows } = await client.query(
-      `SELECT author.id, first_name, last_name, gender, birth_year from author
-      INNER JOIN books
-      ON author.id=books.co_author_id and books.id = $1`,
-      [bookId]
-    );
+    const book = await Books.findByPk(bookId);
 
-    res.status(200).json({ status: 'success', data: rows[0] });
+    if (!book) {
+      return res.status(400).json({ status: 'error', message: 'Book Not Found' });
+    }
+
+    const data = await Authors.findOne({
+      where: {
+        id: book.co_author_id
+      }
+    });
+
+    res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }
@@ -42,20 +54,26 @@ exports.addNewAuthor = async (req, res) => {
       return;
     }
 
-    const publisher = await getDataByField('publishers', 'private_key', privateKey);
+    const publisher = await Publishers.findOne({
+      where: {
+        private_key: privateKey
+      }
+    });
 
-    if (!publisher.length) {
+    if (!publisher) {
       res.status(401).json({ status: 'error', message: 'Unauthorized to create author' });
       return;
     }
 
-    const { rows } = await client.query(
-      'INSERT INTO author (first_name, last_name, gender, birth_year) VALUES($1, $2, $3, $4) RETURNING *',
-      [firstName, lastName, gender, birthYear]
-    );
+    const createdAuthor = await Authors.create({
+      first_name: firstName,
+      last_name: lastName,
+      gender,
+      birth_year: birthYear
+    });
 
-    res.status(201).json({ status: 'success', data: rows[0] });
+    res.status(201).json({ status: 'success', data: createdAuthor });
   } catch ({ message }) {
-    res.status(500).json(internalServerError());
+    res.status(500).json(internalServerError(message));
   }
 };

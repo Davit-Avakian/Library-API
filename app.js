@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('./models');
-// const { authorsRouter } = require('./src/routes/authorsRoutes');
+const { authorsRouter } = require('./src/routes/authorsRoutes');
 const { booksRouter } = require('./src/routes/booksRoutes');
 const { publishersRouter } = require('./src/routes/publishersRoutes');
 const { Books, Authors, Publishers } = require('./models');
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/books', booksRouter);
 
 // authors route
-// app.use('/authors', authorsRouter);
+app.use('/authors', authorsRouter);
 
 // publishers route
 app.use('/publishers', publishersRouter);
@@ -37,6 +37,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status).json({ status: 'error', message: err.message });
 });
 
-db.sequelize.sync({ logging: false }).then(() => {
+db.sequelize.sync({ logging: false, alter: true }).then(() => {
   app.listen(5000);
 });
