@@ -1,8 +1,6 @@
 const express = require('express');
 const db = require('./models');
-const { authorsRouter } = require('./src/routes/authorsRoutes');
-const { booksRouter } = require('./src/routes/booksRoutes');
-const { publishersRouter } = require('./src/routes/publishersRoutes');
+const { authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
 const { Books, Authors, Publishers, Publishers_Authors, Genres } = require('./models');
 
 Authors.hasMany(Books);
@@ -30,13 +28,6 @@ app.use('/authors', authorsRouter);
 // publishers route
 app.use('/publishers', publishersRouter);
 
-// 404 not found
-app.use(function (req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use(function (err, req, res, next) {
@@ -44,5 +35,5 @@ app.use(function (err, req, res, next) {
 });
 
 db.sequelize.sync({ logging: false, alter: true }).then(() => {
-  app.listen(5000);
+  app.listen(process.env.APP_PORT);
 });

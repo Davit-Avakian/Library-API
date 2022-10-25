@@ -1,3 +1,3 @@
 exports.internalServerError = (error) => {
-  return { status: 'error', message: error };
+  return { status: 'zz', message: error };
 };
