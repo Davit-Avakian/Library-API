@@ -3,7 +3,7 @@ const db = require('./models');
 const { authorsRouter } = require('./src/routes/authorsRoutes');
 const { booksRouter } = require('./src/routes/booksRoutes');
 const { publishersRouter } = require('./src/routes/publishersRoutes');
-const { Books, Authors, Publishers } = require('./models');
+const { Books, Authors, Publishers, Publishers_Authors } = require('./models');
 
 Authors.hasMany(Books);
 Books.belongsTo(Authors);
@@ -11,13 +11,15 @@ Books.belongsTo(Authors);
 Publishers.hasMany(Books, { foreignKey: 'publisher_id' });
 Books.belongsTo(Publishers);
 
+Publishers.belongsToMany(Authors, { through: Publishers_Authors, foreignKey: 'publisher_id' });
+Authors.belongsToMany(Publishers, { through: Publishers_Authors });
+
 const app = express();
 
 app.use(express.json());
 
 // books route
 app.use('/books', booksRouter);
-
 
 // authors route
 app.use('/authors', authorsRouter);

@@ -1,17 +1,20 @@
 const { internalServerError } = require('../utils/utils');
-const { Publishers } = require('../../models');
-const { Op } = require('sequelize');
+const { Publishers, Authors } = require('../../models');
 
 exports.getPublishersByAuthorId = async (req, res) => {
   try {
     const { authorId } = req.params;
 
     const data = await Publishers.findAll({
-      where: {
-        authors_ids: {
-          [Op.contains]: [authorId]
+      include: [
+        {
+          model: Authors,
+          where: {
+            id: authorId
+          },
+          attributes: []
         }
-      }
+      ]
     });
 
     res.status(200).json({ status: 'success', data });
