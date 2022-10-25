@@ -1,7 +1,9 @@
 const express = require('express');
 const db = require('./models');
 const { authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
-const { Books, Authors, Publishers, Publishers_Authors, Genres } = require('./models');
+const { Books, Authors, Publishers, Publishers_Authors, Genres, Users } = require('./models');
+const { authRouter } = require('./src/routes/authRoutes');
+const { verifyToken } = require('./src/middleware');
 
 Authors.hasMany(Books);
 Books.belongsTo(Authors);
@@ -12,12 +14,24 @@ Books.belongsTo(Genres);
 Publishers.hasMany(Books, { foreignKey: 'publisher_id' });
 Books.belongsTo(Publishers);
 
+Users.hasMany(Authors, { foreignKey: 'user_id' });
+Authors.belongsTo(Users);
+
+Users.hasMany(Publishers, { foreignKey: 'user_id' });
+Publishers.belongsTo(Users);
+
 Publishers.belongsToMany(Authors, { through: Publishers_Authors, foreignKey: 'publisher_id' });
 Authors.belongsToMany(Publishers, { through: Publishers_Authors });
 
 const app = express();
 
 app.use(express.json());
+
+// auth route
+app.use('/auth', authRouter);
+
+// check if token is valid
+app.use(verifyToken);
 
 // books route
 app.use('/books', booksRouter);
@@ -35,5 +49,5 @@ app.use(function (err, req, res, next) {
 });
 
 db.sequelize.sync({ logging: false, alter: true }).then(() => {
-  app.listen(process.env.APP_PORT);
+  app.listen(process.env.APP_PORT || 5000);
 });
