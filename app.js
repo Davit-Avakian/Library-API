@@ -14,6 +14,7 @@ const { authRouter } = require('./src/routes/authRoutes');
 const { verifyToken } = require('./src/middleware');
 require('dotenv').config();
 
+// DB relationships
 Authors.hasMany(Books);
 Books.belongsTo(Authors);
 
@@ -35,6 +36,7 @@ Customers.belongsTo(Users);
 Publishers.belongsToMany(Authors, { through: Publishers_Authors, foreignKey: 'publisher_id' });
 Authors.belongsToMany(Publishers, { through: Publishers_Authors });
 
+// initialize app
 const app = express();
 
 app.use(express.json());

@@ -1,8 +1,10 @@
 const { internalServerError } = require('../utils/utils');
 const { Publishers, Authors } = require('../../models');
 
+// get all publishers
 exports.getAllPublishers = async (req, res) => {
   try {
+    // find publishers
     const data = await Publishers.findAll();
 
     res.status(200).json({ status: 'success', data });
@@ -11,10 +13,12 @@ exports.getAllPublishers = async (req, res) => {
   }
 };
 
+// get publisher with author id
 exports.getPublishersByAuthorId = async (req, res) => {
   try {
     const { authorId } = req.params;
 
+    // find matching publishers
     const data = await Publishers.findAll({
       include: [
         {

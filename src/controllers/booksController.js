@@ -1,8 +1,10 @@
 const { internalServerError } = require('../utils/utils');
 const { Books } = require('../../models');
 
+// get all books
 exports.getAllBooks = async (req, res) => {
   try {
+    // find all books
     const books = await Books.findAll();
 
     res.status(200).json({ status: 'success', data: books });
@@ -11,10 +13,12 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
+// get book by it's id
 exports.getBookById = async (req, res) => {
   try {
     const { bookId } = req.params;
 
+    // find book
     const data = await Books.findByPk(bookId);
 
     res.status(200).json({ status: 'success', data });
@@ -23,10 +27,12 @@ exports.getBookById = async (req, res) => {
   }
 };
 
+// get book bt genre
 exports.getBookByGenre = async (req, res) => {
   try {
     const { genre } = req.params;
 
+    // find all books with genre
     const data = await Books.findAll({
       where: {
         genre
@@ -39,10 +45,12 @@ exports.getBookByGenre = async (req, res) => {
   }
 };
 
+// get author's books
 exports.getBooksByAuthorId = async (req, res) => {
   try {
     const { authorId } = req.params;
 
+    // find and count all matching books
     const { count, rows } = await Books.findAndCountAll({
       where: {
         author_id: authorId
@@ -55,6 +63,7 @@ exports.getBooksByAuthorId = async (req, res) => {
   }
 };
 
+// get author's books by genre
 exports.getAuthorBooksByGenre = async (req, res) => {
   try {
     const { authorId, genre } = req.params;
@@ -72,10 +81,12 @@ exports.getAuthorBooksByGenre = async (req, res) => {
   }
 };
 
+// get publisher's books
 exports.getBooksByPublisherId = async (req, res) => {
   try {
     const { publisherId } = req.params;
 
+    // find all publisher books
     const data = await Books.findAll({
       where: {
         publisher_id: publisherId
@@ -88,6 +99,7 @@ exports.getBooksByPublisherId = async (req, res) => {
   }
 };
 
+// add new book
 exports.addNewBook = async (req, res) => {
   try {
     const { title, author_id, publisher_id, genre } = req.body;
@@ -97,6 +109,7 @@ exports.addNewBook = async (req, res) => {
       return;
     }
 
+    // create new book
     const createdBook = await Books.create(req.body);
 
     res.status(201).json({ status: 'success', data: createdBook });
@@ -105,11 +118,13 @@ exports.addNewBook = async (req, res) => {
   }
 };
 
+// update book title
 exports.updateBookTitleById = async (req, res) => {
   try {
     const { bookId } = req.params;
     const { title } = req.body;
 
+    // update book
     const data = await Books.update(
       {
         title
@@ -127,10 +142,12 @@ exports.updateBookTitleById = async (req, res) => {
   }
 };
 
+// delete book by id
 exports.deleteBookById = async (req, res) => {
   try {
     const { bookId } = req.params;
 
+    // delete book
     const deletedBook = await Books.destroy({
       where: {
         id: bookId
