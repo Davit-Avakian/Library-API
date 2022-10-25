@@ -16,3 +16,21 @@ exports.verifyToken = async (req, res, next) => {
     next();
   });
 };
+
+exports.verifyRole = (allowedRoles) => {
+  return (req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+
+    const token = authHeader?.split(' ')[1];
+
+    const { role } = jwt.decode(token);
+
+    const allowed = allowedRoles.some((allowedRole) => allowedRole === role);
+
+    if (!allowed) {
+      return res.status(401).json({ status: 'error', message: 'Role not allowed' });
+    }
+
+    next();
+  };
+};

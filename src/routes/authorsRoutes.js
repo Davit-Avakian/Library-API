@@ -2,14 +2,20 @@ const { Router } = require('express');
 const {
   getAuthorsByCentury,
   addNewAuthor,
-  getCoAuthorByBookId
+  getCoAuthorByBookId,
+  getAllAuthors
 } = require('../controllers/authorsController.js');
+const { verifyRole } = require('../middleware');
+const {
+  ROLES: { publisher, author }
+} = require('../utils/utils');
 
 const router = Router();
 
 router
-  .get('/century/:century', getAuthorsByCentury)
-  .get('/co-author/:bookId', getCoAuthorByBookId)
-  .post('/', addNewAuthor);
+  .get('/', getAllAuthors)
+  .get('/century/:century', verifyRole([publisher, author]), getAuthorsByCentury)
+  .get('/co-author/:bookId', verifyRole([publisher, author]), getCoAuthorByBookId)
+  .post('/', verifyRole([publisher, author]), addNewAuthor);
 
 module.exports.authorsRouter = router;

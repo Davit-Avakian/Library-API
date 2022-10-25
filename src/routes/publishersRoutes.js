@@ -1,8 +1,17 @@
 const { Router } = require('express');
-const { getPublishersByAuthorId } = require('../controllers/publishersController');
+const {
+  getPublishersByAuthorId,
+  getAllPublishers
+} = require('../controllers/publishersController');
+const { verifyRole } = require('../middleware');
+const {
+  ROLES: { publisher }
+} = require('../utils/utils');
 
 const router = Router();
 
-router.get('/author/:authorId', getPublishersByAuthorId);
+router
+  .get('/', getAllPublishers)
+  .get('/author/:authorId', verifyRole([publisher]), getPublishersByAuthorId);
 
 module.exports.publishersRouter = router;

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     const userExists = await Users.findOne({
       where: {
@@ -27,6 +27,7 @@ exports.registerUser = async (req, res) => {
     await Users.create({
       username,
       email,
+      role,
       password: hashedPassword
     });
 
@@ -56,7 +57,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ status: 'error', message: 'Password does not match' });
     }
 
-    const token = await jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ role: foundUser.role }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '1h'
+    });
 
     res.status(200).json({ status: 'success', token });
   } catch ({ message }) {

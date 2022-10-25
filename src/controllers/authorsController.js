@@ -2,6 +2,16 @@ const { internalServerError } = require('../utils/utils');
 const { Authors, Books, Publishers } = require('../../models');
 const { Op } = require('sequelize');
 
+exports.getAllAuthors = async (req, res) => {
+  try {
+    const data = await Authors.findAll();
+
+    res.status(200).json({ status: 'success', data });
+  } catch ({ message }) {
+    res.status(500).json({ status: 'error', message });
+  }
+};
+
 exports.getAuthorsByCentury = async (req, res) => {
   try {
     const { century } = req.params;

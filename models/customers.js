@@ -1,11 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class Customers extends Model {
     static associate() {}
   }
 
-  Users.init(
+  Customers.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-      username: {
+      first_name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
@@ -25,33 +25,26 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-      email: {
+      last_name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
         validate: {
           notEmpty: true
         }
       },
 
-      role: {
+      gender: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
       },
 
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+      age: {
+        type: DataTypes.INTEGER
       }
     },
     { sequelize, underscored: true }
   );
 
-  return Users;
+  return Customers;
 };

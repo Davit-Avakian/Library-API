@@ -10,6 +10,10 @@ const {
   getBookByGenre,
   getAuthorBooksByGenre
 } = require('../controllers/booksController');
+const { verifyRole } = require('../middleware');
+const {
+  ROLES: { publisher, author }
+} = require('../utils/utils');
 
 const router = Router();
 
@@ -19,9 +23,9 @@ router
   .get('/genre/:genre', getBookByGenre)
   .get('/author/:authorId', getBooksByAuthorId)
   .get('/author/:authorId/:genre', getAuthorBooksByGenre)
-  .get('/publisher/:publisherId', getBooksByPublisherId)
-  .post('/', addNewBook)
-  .put('/:bookId', updateBookTitleById)
-  .delete('/:bookId', deleteBookById);
+  .get('/publisher/:publisherId', verifyRole([publisher, author]), getBooksByPublisherId)
+  .post('/', verifyRole([publisher, author]), addNewBook)
+  .put('/:bookId', verifyRole([publisher, author]), updateBookTitleById)
+  .delete('/:bookId', verifyRole([publisher, author]), deleteBookById);
 
 module.exports.booksRouter = router;

@@ -1,9 +1,18 @@
 const express = require('express');
 const db = require('./models');
 const { authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
-const { Books, Authors, Publishers, Publishers_Authors, Genres, Users } = require('./models');
+const {
+  Books,
+  Authors,
+  Publishers,
+  Publishers_Authors,
+  Genres,
+  Users,
+  Customers
+} = require('./models');
 const { authRouter } = require('./src/routes/authRoutes');
 const { verifyToken } = require('./src/middleware');
+require('dotenv').config();
 
 Authors.hasMany(Books);
 Books.belongsTo(Authors);
@@ -19,6 +28,9 @@ Authors.belongsTo(Users);
 
 Users.hasMany(Publishers, { foreignKey: 'user_id' });
 Publishers.belongsTo(Users);
+
+Users.hasMany(Customers, { foreignKey: 'user_id' });
+Customers.belongsTo(Users);
 
 Publishers.belongsToMany(Authors, { through: Publishers_Authors, foreignKey: 'publisher_id' });
 Authors.belongsToMany(Publishers, { through: Publishers_Authors });
@@ -49,5 +61,5 @@ app.use(function (err, req, res, next) {
 });
 
 db.sequelize.sync({ logging: false, alter: true }).then(() => {
-  app.listen(process.env.APP_PORT || 5000);
+  app.listen(process.env.APP_PORT);
 });
