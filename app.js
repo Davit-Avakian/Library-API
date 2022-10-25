@@ -3,10 +3,13 @@ const db = require('./models');
 const { authorsRouter } = require('./src/routes/authorsRoutes');
 const { booksRouter } = require('./src/routes/booksRoutes');
 const { publishersRouter } = require('./src/routes/publishersRoutes');
-const { Books, Authors, Publishers, Publishers_Authors } = require('./models');
+const { Books, Authors, Publishers, Publishers_Authors, Genres } = require('./models');
 
 Authors.hasMany(Books);
 Books.belongsTo(Authors);
+
+Genres.hasMany(Books);
+Books.belongsTo(Genres);
 
 Publishers.hasMany(Books, { foreignKey: 'publisher_id' });
 Books.belongsTo(Publishers);

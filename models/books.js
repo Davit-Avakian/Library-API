@@ -77,9 +77,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-      genre: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      genre_id: {
+        type: DataTypes.INTEGER,
         validate: {
           notEmpty: true
         }

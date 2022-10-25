@@ -1,11 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Authors extends Model {
+  class Genres extends Model {
     static associate() {}
   }
 
-  Authors.init(
+  Genres.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -17,30 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-      first_name: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true
-        }
-      },
-
-      last_name: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: true
-        }
-      },
-
-      gender: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: true
-        }
-      },
-
-      birth_year: {
-        type: DataTypes.INTEGER,
         validate: {
           notEmpty: true
         }
@@ -49,5 +28,5 @@ module.exports = (sequelize, DataTypes) => {
     { sequelize, underscored: true }
   );
 
-  return Authors;
+  return Genres;
 };
