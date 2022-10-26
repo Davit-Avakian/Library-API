@@ -1,17 +1,16 @@
 const express = require('express');
-const db = require('./models');
-const { authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
+const db = require('#models');
+const { authRouter, authorsRouter, booksRouter, publishersRouter } = require('#routes');
 const {
   Books,
   Authors,
   Publishers,
   Publishers_Authors,
   Genres,
-  Users,
+  Profile,
   Customers
-} = require('./models');
-const { authRouter } = require('./src/routes/authRoutes');
-const { verifyToken } = require('./src/middleware');
+} = require('#models');
+const { verifyToken } = require('#middleware');
 require('dotenv').config();
 
 // DB relationships
@@ -24,14 +23,14 @@ Books.belongsTo(Genres);
 Publishers.hasMany(Books, { foreignKey: 'publisher_id' });
 Books.belongsTo(Publishers);
 
-Users.hasMany(Authors, { foreignKey: 'user_id' });
-Authors.belongsTo(Users);
+Profile.hasMany(Authors);
+Authors.belongsTo(Profile);
 
-Users.hasMany(Publishers, { foreignKey: 'user_id' });
-Publishers.belongsTo(Users);
+Profile.hasMany(Publishers);
+Publishers.belongsTo(Profile);
 
-Users.hasMany(Customers, { foreignKey: 'user_id' });
-Customers.belongsTo(Users);
+Profile.hasMany(Customers);
+Customers.belongsTo(Profile);
 
 Publishers.belongsToMany(Authors, { through: Publishers_Authors, foreignKey: 'publisher_id' });
 Authors.belongsToMany(Publishers, { through: Publishers_Authors });

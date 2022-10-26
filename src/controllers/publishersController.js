@@ -1,11 +1,13 @@
-const { internalServerError } = require('../utils/utils');
-const { Publishers, Authors } = require('../../models');
+const { internalServerError } = require('#utils');
+const { Publishers, Authors } = require('#models');
 
 // get all publishers
 exports.getAllPublishers = async (req, res) => {
   try {
     // find publishers
-    const data = await Publishers.findAll();
+    const data = await Publishers.findAll({
+      attributes: ['id', 'name', 'address', 'establishment_date']
+    });
 
     res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
@@ -20,13 +22,15 @@ exports.getPublishersByAuthorId = async (req, res) => {
 
     // find matching publishers
     const data = await Publishers.findAll({
+      attributes: ['id', 'name', 'address', 'establishment_date'],
+
       include: [
         {
           model: Authors,
           where: {
             id: authorId
           },
-          attributes: []
+          attributes: ['id', 'first_name', 'last_name', 'gender', 'birth_year']
         }
       ]
     });

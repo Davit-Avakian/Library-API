@@ -1,5 +1,5 @@
-const { internalServerError } = require('../utils/utils');
-const { Books } = require('../../models');
+const { internalServerError } = require('#utils');
+const { Books } = require('#models');
 
 // get all books
 exports.getAllBooks = async (req, res) => {

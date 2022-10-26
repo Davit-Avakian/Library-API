@@ -1,5 +1,5 @@
-const { internalServerError } = require('../utils/utils');
-const { Authors, Books, Publishers } = require('../../models');
+const { internalServerError } = require('#utils');
+const { Authors, Books, Publishers } = require('#models');
 const { Op } = require('sequelize');
 
 // get all authors

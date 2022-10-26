@@ -1,11 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class Profile extends Model {
     static associate() {}
   }
 
-  Users.init(
+  Profile.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -53,5 +53,5 @@ module.exports = (sequelize, DataTypes) => {
     { sequelize, underscored: true }
   );
 
-  return Users;
+  return Profile;
 };

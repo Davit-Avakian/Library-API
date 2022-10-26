@@ -9,6 +9,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
+  "imports": {
+    "#routes": "./src/routes/index.js",
+    "#models": "./models/index.js",
+    "#utils": "./src/utils/utils.js",
+    "#middleware": "./src/middleware/index.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

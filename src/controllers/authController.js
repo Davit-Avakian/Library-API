@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Users } = require('../../models');
-const { internalServerError } = require('../utils/utils');
+const { Profile } = require('#models');
+const { internalServerError } = require('#utils');
 require('dotenv').config();
 
 // register new user
@@ -9,7 +9,7 @@ exports.registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    const userExists = await Users.findOne({
+    const userExists = await Profile.findOne({
       where: {
         email
       }
@@ -27,7 +27,7 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // create new user
-    await Users.create({
+    await Profile.create({
       username,
       email,
       role,
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const foundUser = await Users.findOne({
+    const foundUser = await Profile.findOne({
       where: {
         email
       }
