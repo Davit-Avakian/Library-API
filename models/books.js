@@ -8,10 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   Books.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
         validate: {
           notEmpty: true
         }
@@ -19,15 +18,13 @@ module.exports = (sequelize, DataTypes) => {
 
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
       },
 
       author_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.UUID,
         validate: {
           notEmpty: true
         },
@@ -38,8 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       co_author_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.UUID,
         validate: {
           notEmpty: true
         },
@@ -50,8 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       publisher_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.UUID,
         validate: {
           notEmpty: true
         },
@@ -63,7 +58,6 @@ module.exports = (sequelize, DataTypes) => {
 
       publish_date: {
         type: DataTypes.DATE,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -71,16 +65,19 @@ module.exports = (sequelize, DataTypes) => {
 
       rating: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
       },
 
       genre_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         validate: {
           notEmpty: true
+        },
+        references: {
+          model: 'genres',
+          key: 'id'
         }
       }
     },

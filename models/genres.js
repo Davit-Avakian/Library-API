@@ -8,10 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   Genres.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
         validate: {
           notEmpty: true
         }
@@ -19,9 +18,16 @@ module.exports = (sequelize, DataTypes) => {
 
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
+        }
+      },
+
+      book_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'books',
+          key: 'id'
         }
       }
     },

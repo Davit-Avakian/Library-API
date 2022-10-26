@@ -8,10 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   Publishers.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
         validate: {
           notEmpty: true
         }
@@ -19,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -27,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
 
       address: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -35,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
 
       establishment_date: {
         type: DataTypes.DATE,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -43,9 +39,16 @@ module.exports = (sequelize, DataTypes) => {
 
       private_key: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
+        }
+      },
+
+      profile_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
         }
       }
     },

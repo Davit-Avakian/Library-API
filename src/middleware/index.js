@@ -8,6 +8,11 @@ exports.verifyToken = async (req, res, next) => {
   // get token from request header
   const token = authHeader?.split(' ')[1];
 
+  // check if token exists
+  if (!token) {
+    return res.status(400).json({ status: 'error', message: 'Token missing' });
+  }
+
   // verify token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err) => {
     if (err) {
@@ -27,6 +32,11 @@ exports.verifyRole = (allowedRoles) => {
 
     // get token from request header
     const token = authHeader?.split(' ')[1];
+
+    // check if token exists
+    if (!token) {
+      return res.status(400).json({ status: 'error', message: 'Token missing' });
+    }
 
     // decode role from token
     const { role } = jwt.decode(token);

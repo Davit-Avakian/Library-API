@@ -8,10 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   Customers.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
         validate: {
           notEmpty: true
         }
@@ -19,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 
       first_name: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -41,6 +39,14 @@ module.exports = (sequelize, DataTypes) => {
 
       age: {
         type: DataTypes.INTEGER
+      },
+
+      profile_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
+        }
       }
     },
     { sequelize, underscored: true }

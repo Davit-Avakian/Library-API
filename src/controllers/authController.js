@@ -35,8 +35,9 @@ exports.registerUser = async (req, res) => {
     });
 
     res.status(201).json({ status: 'success', message: 'User created' });
-  } catch ({ message }) {
-    res.status(500).json(internalServerError(message));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(internalServerError(error.message));
   }
 };
 

@@ -8,13 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   Authors.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
       },
 
       first_name: {
@@ -43,6 +39,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         validate: {
           notEmpty: true
+        }
+      },
+
+      profile_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
         }
       }
     },

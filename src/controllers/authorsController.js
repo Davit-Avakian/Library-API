@@ -23,10 +23,7 @@ exports.getAuthorsByCentury = async (req, res) => {
     const data = await Authors.findAll({
       where: {
         birth_year: {
-          [Op.and]: {
-            [Op.gte]: (century - 1) * 100 + 1,
-            [Op.lte]: century * 100
-          }
+          [Op.between]: [(century - 1) * 100 + 1, century * 100]
         }
       }
     });

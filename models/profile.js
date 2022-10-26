@@ -8,18 +8,13 @@ module.exports = (sequelize, DataTypes) => {
   Profile.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
       },
 
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -27,16 +22,14 @@ module.exports = (sequelize, DataTypes) => {
 
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
         unique: true,
         validate: {
-          notEmpty: true
+          isEmail: true
         }
       },
 
       role: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
@@ -44,7 +37,6 @@ module.exports = (sequelize, DataTypes) => {
 
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
           notEmpty: true
         }
