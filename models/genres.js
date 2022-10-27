@@ -21,14 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: true
         }
-      },
-
-      book_id: {
-        type: DataTypes.UUID,
-        references: {
-          model: 'books',
-          key: 'id'
-        }
       }
     },
     { sequelize, underscored: true }

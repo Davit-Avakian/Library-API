@@ -2,7 +2,12 @@ const express = require('express');
 const db = require('#models');
 const { authRouter, authorsRouter, booksRouter, publishersRouter } = require('#routes');
 const { verifyToken } = require('#middleware');
+const { Authors, Publishers, Publishers_Authors } = require('#models');
 require('dotenv').config();
+
+// many to many relationship for publishers and authors
+Publishers.belongsToMany(Authors, { through: Publishers_Authors });
+Authors.belongsToMany(Publishers, { through: Publishers_Authors });
 
 // initialize app
 const app = express();

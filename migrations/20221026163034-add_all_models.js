@@ -48,6 +48,53 @@ module.exports = {
       }
     });
 
+    await queryInterface.createTable('publishers', {
+      id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      name: {
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      address: {
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      establishment_date: {
+        type: Sequelize.DATE,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      private_key: {
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      profile_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
+        }
+      }
+    });
+
     await queryInterface.createTable('books', {
       id: {
         type: Sequelize.UUID,
@@ -183,14 +230,6 @@ module.exports = {
         validate: {
           notEmpty: true
         }
-      },
-
-      book_id: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'books',
-          key: 'id'
-        }
       }
     });
 
@@ -253,6 +292,8 @@ module.exports = {
   async down(queryInterface) {
     await queryInterface.dropTable('authors');
 
+    await queryInterface.dropTable('publishers');
+
     await queryInterface.dropTable('books');
 
     await queryInterface.dropTable('customers');
@@ -260,8 +301,6 @@ module.exports = {
     await queryInterface.dropTable('genres');
 
     await queryInterface.dropTable('profiles');
-
-    await queryInterface.dropTable('publishers');
 
     await queryInterface.dropTable('publishers_authors');
   }
