@@ -35,6 +35,14 @@ app.use(function (err, req, res, next) {
   res.status(err.status).json({ status: 'error', message: err.message });
 });
 
-db.sequelize.sync({ logging: false, alter: true }).then(() => {
-  app.listen(process.env.APP_PORT);
-});
+try {
+  db.sequelize.sync({ logging: false, alter: true }).then(() => {
+    app.listen(process.env.APP_PORT);
+  });
+} catch (error) {
+  console.log(error);
+}
+
+// db.sequelize.sync({ logging: false, alter: true }).then(() => {
+//   app.listen(process.env.APP_PORT);
+// });
