@@ -1,8 +1,18 @@
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const { Profile } = require('../../models');
 const { internalServerError, unAuthorizedError, badRequestError } = require('../utils/utils');
 require('dotenv').config();
+
+const transport = nodemailer.createTransport({
+  host: 'smtp.mailtrap.io',
+  port: 2525,
+  auth: {
+    user: 'c4a9105ce57638',
+    pass: '5f4b8758a39421'
+  }
+});
 
 // register new user
 exports.registerUser = async (req, res) => {
@@ -33,6 +43,28 @@ exports.registerUser = async (req, res) => {
       role,
       password: hashedPassword
     });
+
+    const verifyToken = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '1h'
+    });
+
+    transport.sendMail(
+      {
+        from: 'example@gmail.com',
+        to: email,
+        subject: 'Verify Email',
+        html: `<b>Please verify your email using this token ${verifyToken}</b>`
+      },
+
+      (err) => {
+        if (err) {
+          console.log('Sending Email Failed: ', err);
+          return;
+        }
+
+        console.log('Email sent');
+      }
+    );
 
     res.status(201).json({ status: 'success', message: 'User created' });
   } catch (error) {
