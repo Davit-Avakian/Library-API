@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         type: DataTypes.STRING,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          is: /^[a-zA-z0-9]/i
         }
       },
 
