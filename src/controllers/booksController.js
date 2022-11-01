@@ -1,5 +1,5 @@
-const { internalServerError } = require('#utils');
-const { Books } = require('#models');
+const { internalServerError, badRequestError } = require('../utils/utils');
+const { Books } = require('../../models');
 
 // get all books
 exports.getAllBooks = async (req, res) => {
@@ -27,24 +27,6 @@ exports.getBookById = async (req, res) => {
   }
 };
 
-// get book bt genre
-exports.getBookByGenre = async (req, res) => {
-  try {
-    const { genre } = req.params;
-
-    // find all books with genre
-    const data = await Books.findAll({
-      where: {
-        genre
-      }
-    });
-
-    res.status(200).json({ status: 'success', data });
-  } catch ({ message }) {
-    res.status(500).json(internalServerError(message));
-  }
-};
-
 // get author's books
 exports.getBooksByAuthorId = async (req, res) => {
   try {
@@ -58,24 +40,6 @@ exports.getBooksByAuthorId = async (req, res) => {
     });
 
     res.status(200).json({ status: 'success', count, data: rows });
-  } catch ({ message }) {
-    res.status(500).json(internalServerError(message));
-  }
-};
-
-// get author's books by genre
-exports.getAuthorBooksByGenre = async (req, res) => {
-  try {
-    const { authorId, genre } = req.params;
-
-    const data = await Books.findAll({
-      where: {
-        author_id: authorId,
-        genre
-      }
-    });
-
-    res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }
@@ -105,7 +69,7 @@ exports.addNewBook = async (req, res) => {
     const { title, author_id, publisher_id, genre } = req.body;
 
     if (!title | !author_id | !publisher_id | genre) {
-      res.status(400).json({ status: 'error', message: 'Data missing' });
+      res.status(400).json(badRequestError('Data missing'));
       return;
     }
 

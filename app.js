@@ -1,8 +1,8 @@
 const express = require('express');
-const db = require('#models');
-const { authRouter, authorsRouter, booksRouter, publishersRouter } = require('#routes');
-const { verifyToken } = require('#middleware');
-const { Authors, Publishers, Publishers_Authors } = require('#models');
+const db = require('./models');
+const { authRouter, authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
+const { verifyToken } = require('./src/middleware');
+const { Authors, Publishers, Publishers_Authors } = require('./models');
 require('dotenv').config();
 
 // many to many relationship for publishers and authors
@@ -35,14 +35,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status).json({ status: 'error', message: err.message });
 });
 
-try {
-  db.sequelize.sync({ logging: false, alter: true }).then(() => {
-    app.listen(process.env.APP_PORT);
-  });
-} catch (error) {
-  console.log(error);
-}
+db.sequelize.sync({ logging: false, alter: true }).then(() => {
+  app.listen(process.env.APP_PORT);
+});
 
-// db.sequelize.sync({ logging: false, alter: true }).then(() => {
-//   app.listen(process.env.APP_PORT);
-// });
+module.exports = app;

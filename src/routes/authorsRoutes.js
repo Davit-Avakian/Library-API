@@ -5,10 +5,10 @@ const {
   getCoAuthorByBookId,
   getAllAuthors
 } = require('../controllers/authorsController.js');
-const { verifyRole } = require('#middleware');
+const { verifyRole } = require('../middleware');
 const {
   ROLES: { publisher, author }
-} = require('#utils');
+} = require('../utils/utils');
 
 const router = Router();
 

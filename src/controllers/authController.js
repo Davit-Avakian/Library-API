@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Profile } = require('#models');
-const { internalServerError } = require('#utils');
+const { Profile } = require('../../models');
+const { internalServerError, unAuthorizedError, badRequestError } = require('../utils/utils');
 require('dotenv').config();
 
 // register new user
@@ -16,12 +16,12 @@ exports.registerUser = async (req, res) => {
     });
 
     if (!username || !email || !password) {
-      return res.status(400).json({ status: 'error', message: 'Data missing' });
+      return res.status(400).json(badRequestError('Data missing'));
     }
 
     // check if user exists
     if (userExists) {
-      return res.status(400).json({ status: 'error', message: 'User with email already exists' });
+      return res.status(400).json(badRequestError('User with email already exists'));
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -54,14 +54,14 @@ exports.login = async (req, res) => {
 
     // check if user exists
     if (!foundUser) {
-      return res.status(400).json({ status: 'error', message: 'User with given email not found' });
+      return res.status(400).json(badRequestError('User with given email not found'));
     }
 
     // compare password
     const match = await bcrypt.compare(password, foundUser.password);
 
     if (!match) {
-      return res.status(401).json({ status: 'error', message: 'Password does not match' });
+      return res.status(401).json(unAuthorizedError('Passwords does not match'));
     }
 
     // create access token

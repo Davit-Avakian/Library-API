@@ -1,3 +1,4 @@
+const { unAuthorizedError, badRequestError } = require('../utils/utils');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -10,15 +11,13 @@ exports.verifyToken = async (req, res, next) => {
 
   // check if token exists
   if (!token) {
-    return res.status(400).json({ status: 'error', message: 'Token missing' });
+    return res.status(400).json(badRequestError('Token missing'));
   }
 
   // verify token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err) => {
     if (err) {
-      return res
-        .status(401)
-        .json({ status: 'error', message: 'Access token is invalid or expired' });
+      return res.status(401).json(unAuthorizedError('Access token is invalid or expired'));
     }
 
     next();
@@ -35,7 +34,7 @@ exports.verifyRole = (allowedRoles) => {
 
     // check if token exists
     if (!token) {
-      return res.status(400).json({ status: 'error', message: 'Token missing' });
+      return res.status(400).json(badRequestError('Token missing'));
     }
 
     // decode role from token

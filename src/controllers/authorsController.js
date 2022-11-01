@@ -1,5 +1,5 @@
-const { internalServerError } = require('#utils');
-const { Authors, Books, Publishers } = require('#models');
+const { internalServerError, unAuthorizedError } = require('../utils/utils');
+const { Authors, Books, Publishers } = require('../../models');
 const { Op } = require('sequelize');
 
 // get all authors
@@ -43,7 +43,7 @@ exports.getCoAuthorByBookId = async (req, res) => {
 
     // check if book exists
     if (!book) {
-      return res.status(400).json({ status: 'error', message: 'Book Not Found' });
+      return res.status(404).json({ status: 'error', message: 'Book Not Found' });
     }
 
     // find co author
@@ -78,7 +78,7 @@ exports.addNewAuthor = async (req, res) => {
 
     // check if publisher exists
     if (!publisher) {
-      res.status(401).json({ status: 'error', message: 'Unauthorized to create author' });
+      res.status(401).json(unAuthorizedError('Unauthorized to create author'));
       return;
     }
 
