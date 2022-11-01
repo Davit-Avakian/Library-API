@@ -106,3 +106,35 @@ exports.login = async (req, res) => {
     res.status(500).json(internalServerError(message));
   }
 };
+
+// verify new user
+exports.verifyUser = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    if (!token) {
+      return res.status(400).json(badRequestError('Token Missing'));
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err) => {
+      if (err) {
+        return res.status(401).json(unAuthorizedError('Verify Token is invalid'));
+      }
+
+      const { email } = jwt.decode(token);
+
+      await Profile.update(
+        { isVerified: true },
+        {
+          where: {
+            email
+          }
+        }
+      );
+
+      return res.status(200).json({ status: 'success', message: 'User successfully verified' });
+    });
+  } catch ({ message }) {
+    res.status(500).json(internalServerError(message));
+  }
+};

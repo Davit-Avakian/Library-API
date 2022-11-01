@@ -46,4 +46,23 @@ describe('Auth Router', () => {
       expect(response.body.message).toBe('Passwords does not match');
     });
   });
+
+  describe('Verify Token Route', () => {
+    const verifyToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY3MzEyNTM1LCJleHAiOjE2NjczMTYxMzV9.mAUYoBOTU459DYasm4s7rRKnKioVQyBZU9gsiDHmUDU';
+
+    test('update user to verified given token', async () => {
+      const response = await request.put(`/auth/verify/${verifyToken}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('User successfully verified');
+    });
+
+    test('return error message given invalid token', async () => {
+      const response = await request.put(`/auth/verify/invalidToken`);
+
+      expect(response.statusCode).toBe(401);
+      expect(response.body.message).toBe('Verify Token is invalid');
+    });
+  });
 });
