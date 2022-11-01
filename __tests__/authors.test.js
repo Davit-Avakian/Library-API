@@ -5,11 +5,18 @@ const request = supertest(app);
 
 describe('Authors Router', () => {
   const headers = {
-    Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoicHVibGlzaGVyIiwiaWF0IjoxNjY3Mjk3MTY5LCJleHAiOjE2NjczMDA3Njl9.nSsG5OEYh1ALUxBElaTHvl1w4wlhQL2jHB3weo_jufU'}`
+    Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoicHVibGlzaGVyIiwiaWF0IjoxNjY3MzE3MjIwLCJleHAiOjE2NjczMjA4MjB9.1wOJ9Az1tijxT5Zb3Md9IUBuddy2asO6dn2E7dFvuDM'}`
   };
 
   describe('Get all authors', () => {
-    test('should return all authors', async () => {
+    test('return error given no headers', async () => {
+      const response = await request.get('/authors');
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.message).toBe('Token missing');
+    });
+
+    test('return all authors', async () => {
       const response = await request.get('/authors').set(headers);
 
       expect(response.statusCode).toBe(200);
@@ -18,7 +25,7 @@ describe('Authors Router', () => {
   });
 
   describe('Get authors by century', () => {
-    test('should return all authors by given century', async () => {
+    test('return all authors given century', async () => {
       const response = await request.get('/authors/century/18').set(headers);
 
       expect(response.statusCode).toBe(200);
@@ -27,13 +34,19 @@ describe('Authors Router', () => {
   });
 
   describe('Get co author by book id', () => {
-    test('should return co author for given book', async () => {
+    test('return co author given book id', async () => {
       const response = await request
         .get('/authors/co-author/fce95247-b99f-4fdf-8302-7529b57074c7')
         .set(headers);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.data).toBeDefined();
+    });
+
+    test('return error given invalid book id', async () => {
+      const response = await request.get('/authors/co-author/wrongId').set(headers);
+
+      expect(response.statusCode).toBe(500);
     });
   });
 
@@ -46,14 +59,14 @@ describe('Authors Router', () => {
       privateKey: 'private-key1'
     };
 
-    test('should add new author and return it', async () => {
+    test('return and add new author', async () => {
       const response = await request.post('/authors').set(headers).send(newAuthor);
 
       expect(response.statusCode).toBe(201);
       expect(response.body.data).toBeDefined();
     });
 
-    test('should fail to add when private key is not real', async () => {
+    test('fail adding author given invalid private key', async () => {
       const response = await request
         .post('/authors')
         .set(headers)

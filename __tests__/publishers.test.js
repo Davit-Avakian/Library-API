@@ -9,7 +9,7 @@ describe('Publishers Router', () => {
   };
 
   describe('Get all publishers', () => {
-    test('should return all publishers', async () => {
+    test('return all publishers', async () => {
       const response = await request.get('/publishers').set(headers);
 
       expect(response.statusCode).toBe(200);
@@ -18,7 +18,7 @@ describe('Publishers Router', () => {
   });
 
   describe('Get publishers by author id', () => {
-    test('should return all publishers that have given author', async () => {
+    test('return all publishers given author id', async () => {
       const response = await request
         .get('/publishers/author/35383128-f444-434d-a12f-4240a2027797')
         .set(headers);

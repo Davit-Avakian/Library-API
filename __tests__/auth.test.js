@@ -12,14 +12,14 @@ describe('Auth Router', () => {
   };
 
   describe('Register Route', () => {
-    test('should successfully register new user with valid credentials', async () => {
+    test('successfully register given valid credentials', async () => {
       const response = await request.post('/auth/register').send(newUser);
 
       expect(response.statusCode).toBe(201);
       expect(response.body.status).toBe('success');
     });
 
-    test('should not register new user with existing email', async () => {
+    test('register failure given existing email', async () => {
       const response = await request.post('/auth/register').send(newUser);
 
       expect(response.statusCode).toBe(400);
@@ -28,7 +28,7 @@ describe('Auth Router', () => {
   });
 
   describe('Login Route', () => {
-    test('should send back token after successfull login', async () => {
+    test('return token given given valid login parameters', async () => {
       const response = await request
         .get('/auth/login')
         .send({ email: newUser.email, password: newUser.password });
@@ -37,7 +37,7 @@ describe('Auth Router', () => {
       expect(response.body.token).toBeDefined();
     });
 
-    test('should fail login with wrong password', async () => {
+    test('login failure given wrong password', async () => {
       const response = await request
         .get('/auth/login')
         .send({ email: newUser.email, password: 'wrongPassword' });
@@ -51,14 +51,14 @@ describe('Auth Router', () => {
     const verifyToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY3MzEyNTM1LCJleHAiOjE2NjczMTYxMzV9.mAUYoBOTU459DYasm4s7rRKnKioVQyBZU9gsiDHmUDU';
 
-    test('update user to verified given token', async () => {
+    test('make user verified given valid verify token', async () => {
       const response = await request.put(`/auth/verify/${verifyToken}`);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('User successfully verified');
     });
 
-    test('return error message given invalid token', async () => {
+    test('return error message given invalid verify token', async () => {
       const response = await request.put(`/auth/verify/invalidToken`);
 
       expect(response.statusCode).toBe(401);
