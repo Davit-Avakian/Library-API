@@ -1,4 +1,4 @@
-const { internalServerError } = require('../utils/utils');
+const { internalServerError, badRequestError } = require('../utils/utils');
 const { Publishers, Authors } = require('../../models');
 
 // get all publishers
@@ -50,6 +50,27 @@ exports.getPublishersByAuthorId = async (req, res) => {
     });
 
     res.status(200).json({ status: 'success', data });
+  } catch ({ message }) {
+    res.status(500).json(internalServerError(message));
+  }
+};
+
+// delete publisher
+exports.deletePublisher = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json(badRequestError('Id is missing'));
+    }
+
+    const deletedPublisher = await Publishers.destroy({
+      where: {
+        id
+      }
+    });
+
+    return res.status(204).json({ status: 'success', data: deletedPublisher });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }

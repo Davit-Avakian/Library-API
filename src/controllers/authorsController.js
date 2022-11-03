@@ -1,4 +1,4 @@
-const { internalServerError, unAuthorizedError } = require('../utils/utils');
+const { internalServerError, unAuthorizedError, badRequestError } = require('../utils/utils');
 const { Authors, Books, Publishers } = require('../../models');
 const { Op } = require('sequelize');
 
@@ -105,6 +105,26 @@ exports.addNewAuthor = async (req, res) => {
     });
 
     res.status(201).json({ status: 'success', data: createdAuthor });
+  } catch ({ message }) {
+    res.status(500).json(internalServerError(message));
+  }
+};
+
+exports.deleteAuthor = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json(badRequestError('Id is missing'));
+    }
+
+    const deletedAuthor = await Authors.destroy({
+      where: {
+        id
+      }
+    });
+
+    return res.status(204).json({ status: 'success', data: deletedAuthor });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }

@@ -3,7 +3,8 @@ const {
   getAuthorsByCentury,
   addNewAuthor,
   getCoAuthorByBookId,
-  getAllAuthors
+  getAllAuthors,
+  deleteAuthor
 } = require('../controllers/authorsController.js');
 const { verifyRole } = require('../middleware');
 const {
@@ -16,6 +17,7 @@ router
   .get('/', getAllAuthors)
   .get('/century/:century', verifyRole([publisher, author]), getAuthorsByCentury)
   .get('/co-author/:bookId', verifyRole([publisher, author]), getCoAuthorByBookId)
-  .post('/', verifyRole([publisher, author]), addNewAuthor);
+  .post('/', verifyRole([publisher]), addNewAuthor)
+  .delete('/:id', verifyRole([publisher]), deleteAuthor);
 
 module.exports.authorsRouter = router;

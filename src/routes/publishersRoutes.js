@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const {
   getPublishersByAuthorId,
-  getAllPublishers
+  getAllPublishers,
+  deletePublisher
 } = require('../controllers/publishersController');
 const { verifyRole } = require('../middleware');
 const {
@@ -12,6 +13,7 @@ const router = Router();
 
 router
   .get('/', getAllPublishers)
-  .get('/author/:authorId', verifyRole([publisher]), getPublishersByAuthorId);
+  .get('/author/:authorId', verifyRole([publisher]), getPublishersByAuthorId)
+  .delete('/:id', verifyRole([publisher]), deletePublisher);
 
 module.exports.publishersRouter = router;
