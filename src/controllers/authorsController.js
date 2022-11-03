@@ -4,11 +4,25 @@ const { Op } = require('sequelize');
 
 // get all authors
 exports.getAllAuthors = async (req, res) => {
+  const { sortBy, sortType, gender, offset } = req.query;
+
+  const sortAndFilter = {
+    order: [[sortBy, sortType]],
+
+    offset,
+    limit: 8
+  };
+
+  if (gender !== 'all')
+    sortAndFilter.where = {
+      gender
+    };
+
   try {
     // get all data
-    const data = await Authors.findAll();
+    const { count, rows: data } = await Authors.findAndCountAll(sortAndFilter);
 
-    res.status(200).json({ status: 'success', data });
+    res.status(200).json({ status: 'success', data, count });
   } catch ({ message }) {
     res.status(500).json({ status: 'error', message });
   }

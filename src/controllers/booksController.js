@@ -1,13 +1,27 @@
 const { internalServerError, badRequestError } = require('../utils/utils');
 const { Books } = require('../../models');
+const { Op } = require('sequelize');
 
 // get all books
 exports.getAllBooks = async (req, res) => {
+  const { sortBy, sortType, offset, genres } = req.query;
+
   try {
     // find all books
-    const books = await Books.findAll();
+    const { count, rows: books } = await Books.findAndCountAll({
+      where: {
+        genre_ids: {
+          [Op.contains]: genres?.length ? genres.split(',') : []
+        }
+      },
 
-    res.status(200).json({ status: 'success', data: books });
+      order: [[sortBy, sortType]],
+
+      offset,
+      limit: 8
+    });
+
+    res.status(200).json({ status: 'success', data: books, count });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }

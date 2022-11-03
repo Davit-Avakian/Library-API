@@ -68,7 +68,6 @@ exports.registerUser = async (req, res) => {
 
     res.status(201).json({ status: 'success', message: 'User created' });
   } catch (error) {
-    console.log(error);
     res.status(500).json(internalServerError(error.message));
   }
 };
@@ -101,7 +100,7 @@ exports.login = async (req, res) => {
       expiresIn: '1h'
     });
 
-    res.status(200).json({ status: 'success', token });
+    res.status(200).json({ status: 'success', token, role: foundUser.role });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));
   }

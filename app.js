@@ -1,9 +1,16 @@
 const express = require('express');
 
 const db = require('./models');
-const { authRouter, authorsRouter, booksRouter, publishersRouter } = require('./src/routes');
+const {
+  authRouter,
+  authorsRouter,
+  booksRouter,
+  publishersRouter,
+  genresRouter
+} = require('./src/routes');
 const { verifyToken } = require('./src/middleware');
 const { Authors, Publishers, Publishers_Authors } = require('./models');
+const cors = require('cors');
 require('dotenv').config();
 
 // many to many relationship for publishers and authors
@@ -14,6 +21,7 @@ Authors.belongsToMany(Publishers, { through: Publishers_Authors });
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // auth route
 app.use('/auth', authRouter);
@@ -29,6 +37,9 @@ app.use('/authors', authorsRouter);
 
 // publishers route
 app.use('/publishers', publishersRouter);
+
+// genres route
+app.use('/genres', genresRouter);
 
 // error handler
 // eslint-disable-next-line no-unused-vars

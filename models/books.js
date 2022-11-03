@@ -70,15 +70,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
 
-      genre_id: {
-        type: DataTypes.UUID,
-        validate: {
-          notEmpty: true
-        },
-        references: {
-          model: 'genres',
-          key: 'id'
-        }
+      genre_ids: {
+        type: DataTypes.ARRAY(DataTypes.UUID)
       }
     },
     { sequelize, underscored: true, timestamps: false, createdAt: false }

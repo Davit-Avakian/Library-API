@@ -3,6 +3,6 @@ const { registerUser, login, verifyUser } = require('../controllers/authControll
 
 const router = Router();
 
-router.post('/register', registerUser).get('/login', login).put('/verify/:token', verifyUser);
+router.post('/register', registerUser).post('/login', login).put('/verify/:token', verifyUser);
 
 module.exports.authRouter = router;

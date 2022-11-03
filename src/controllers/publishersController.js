@@ -3,13 +3,27 @@ const { Publishers, Authors } = require('../../models');
 
 // get all publishers
 exports.getAllPublishers = async (req, res) => {
+  const { sortBy, sortType, address, offset } = req.query;
+
+  const sortAndFilter = {
+    attributes: ['id', 'name', 'address', 'establishment_date'],
+
+    order: [[sortBy, sortType]],
+    offset,
+    limit: 8
+  };
+
+  if (address !== 'all') {
+    sortAndFilter.where = {
+      address
+    };
+  }
+
   try {
     // find publishers
-    const data = await Publishers.findAll({
-      attributes: ['id', 'name', 'address', 'establishment_date']
-    });
+    const { count, rows: data } = await Publishers.findAndCountAll(sortAndFilter);
 
-    res.status(200).json({ status: 'success', data });
+    res.status(200).json({ status: 'success', data, count });
   } catch ({ message }) {
     res.status(500).json({ status: 'error', message });
   }
