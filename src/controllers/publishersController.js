@@ -51,6 +51,7 @@ exports.getPublishersByAuthorId = async (req, res) => {
 
     res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
+    console.log(message);
     res.status(500).json(internalServerError(message));
   }
 };

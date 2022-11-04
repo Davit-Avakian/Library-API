@@ -32,6 +32,10 @@ exports.getBookById = async (req, res) => {
   try {
     const { bookId } = req.params;
 
+    if (!bookId) {
+      return res.status(400).json(badRequestError('Book id missing'));
+    }
+
     // find book
     const data = await Books.findByPk(bookId);
 
@@ -45,6 +49,10 @@ exports.getBookById = async (req, res) => {
 exports.getBooksByAuthorId = async (req, res) => {
   try {
     const { authorId } = req.params;
+
+    if (!authorId) {
+      return res.status(400).json(badRequestError('Author id is missing'));
+    }
 
     // find and count all matching books
     const { count, rows } = await Books.findAndCountAll({
@@ -63,6 +71,10 @@ exports.getBooksByAuthorId = async (req, res) => {
 exports.getBooksByPublisherId = async (req, res) => {
   try {
     const { publisherId } = req.params;
+
+    if (!publisherId) {
+      return res.status(400).json(badRequestError('Publisher id is missing'));
+    }
 
     // find all publisher books
     const data = await Books.findAll({
@@ -102,6 +114,10 @@ exports.updateBookTitleById = async (req, res) => {
     const { bookId } = req.params;
     const { title } = req.body;
 
+    if (!bookId || !title) {
+      return res.status(400).json(badRequestError('Id or title missing'));
+    }
+
     // update book
     const data = await Books.update(
       {
@@ -124,6 +140,10 @@ exports.updateBookTitleById = async (req, res) => {
 exports.deleteBookById = async (req, res) => {
   try {
     const { bookId } = req.params;
+
+    if (!bookId) {
+      return res.status(400).json(badRequestError('Id is missing'));
+    }
 
     // delete book
     const deletedBook = await Books.destroy({

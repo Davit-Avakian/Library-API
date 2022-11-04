@@ -1,25 +1,25 @@
 exports.internalServerError = (message) => {
-  const error = new Error();
+  const error = {};
 
-  error.status = 500;
+  error.status = 'server error';
   error.message = message;
 
   return error;
 };
 
 exports.badRequestError = (message) => {
-  const error = new Error();
+  const error = {};
 
-  error.status = 404;
+  error.status = 'bad request';
   error.message = message;
 
   return error;
 };
 
 exports.unAuthorizedError = (message) => {
-  const error = new Error();
+  const error = {};
 
-  error.status = 401;
+  error.status = 'unauthorized error';
   error.message = message;
 
   return error;

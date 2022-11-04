@@ -131,7 +131,7 @@ exports.verifyUser = async (req, res) => {
         }
       );
 
-      return res.status(200).json({ status: 'success', message: 'User successfully verified' });
+      res.status(200).json({ status: 'success', message: 'User successfully verified' });
     });
   } catch ({ message }) {
     res.status(500).json(internalServerError(message));

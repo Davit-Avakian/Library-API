@@ -55,41 +55,41 @@ describe('Books Router', () => {
     });
   });
 
-  // describe('Add new book', () => {
-  //   const newBook = {
-  //     title: 'newBook',
-  //     author_id: '35383128-f444-434d-a12f-4240a2027797',
-  //     publisher_id: 'f250dc8d-a019-49f0-bf05-d23d7ba0094f',
-  //     genre: 'fantasy'
-  //   };
+  describe('Add new book', () => {
+    const newBook = {
+      title: 'newBook',
+      author_id: '35383128-f444-434d-a12f-4240a2027797',
+      publisher_id: 'f250dc8d-a019-49f0-bf05-d23d7ba0094f',
+      genre: 'fantasy'
+    };
 
-  //   test('add and return new book', async () => {
-  //     const response = await request.post('/books').set(headers).send(newBook);
+    test('add and return new book', async () => {
+      const response = await request.post('/books').set(headers).send(newBook);
 
-  //     expect(response.statusCode).toBe(201);
-  //     expect(response.body.data.title).toBe(newBook.title);
-  //   });
-  // });
+      expect(response.statusCode).toBe(201);
+      expect(response.body.data.title).toBe(newBook.title);
+    });
+  });
 
-  // describe('Update book title by id', () => {
-  //   test('return all books given publisher id', async () => {
-  //     const response = await request
-  //       .put('/fce95247-b99f-4fdf-8302-7529b57074c7')
-  //       .set(headers)
-  //       .send({ title: 'updated title' });
+  describe('Update book title by id', () => {
+    test('return all books given publisher id', async () => {
+      const response = await request
+        .put('/fce95247-b99f-4fdf-8302-7529b57074c7')
+        .set(headers)
+        .send({ title: 'updated title' });
 
-  //     expect(response.statusCode).toBe(204);
-  //     expect(response.body.data.title).toBe('updated title');
-  //   });
-  // });
+      expect(response.statusCode).toBe(204);
+      expect(response.body.data.title).toBe('updated title');
+    });
+  });
 
-  // describe('Delete book title by id', () => {
-  //   test('delete book given id', async () => {
-  //     const response = await request
-  //       .delete('/books/2785afeb-f1b4-4a04-b22c-74dfdca8c853')
-  //       .set(headers);
+  describe('Delete book title by id', () => {
+    test('delete book given id', async () => {
+      const response = await request
+        .delete('/books/2785afeb-f1b4-4a04-b22c-74dfdca8c853')
+        .set(headers);
 
-  //     expect(response.statusCode).toBe(204);
-  //   });
-  // });
+      expect(response.statusCode).toBe(204);
+    });
+  });
 });

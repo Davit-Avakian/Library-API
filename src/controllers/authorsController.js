@@ -33,6 +33,10 @@ exports.getAuthorsByCentury = async (req, res) => {
   try {
     const { century } = req.params;
 
+    if (!century) {
+      return res.status(400).json(badRequestError('Century missing'));
+    }
+
     // find authors that match
     const data = await Authors.findAll({
       where: {
@@ -44,11 +48,12 @@ exports.getAuthorsByCentury = async (req, res) => {
 
     res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
+    console.log(message);
     res.status(500).json(internalServerError(message));
   }
 };
 
-// get book's co author
+// get co author by book id
 exports.getCoAuthorByBookId = async (req, res) => {
   try {
     const { bookId } = req.params;
@@ -69,6 +74,7 @@ exports.getCoAuthorByBookId = async (req, res) => {
 
     res.status(200).json({ status: 'success', data });
   } catch ({ message }) {
+    console.log(message);
     res.status(500).json(internalServerError(message));
   }
 };
@@ -79,7 +85,7 @@ exports.addNewAuthor = async (req, res) => {
     const { firstName, lastName, gender, birthYear, privateKey } = req.body;
 
     if (!firstName | !lastName | !birthYear) {
-      res.status(400).json({ status: 'error', message: 'Data missing' });
+      res.status(400).json(badRequestError('Data missing'));
       return;
     }
 
@@ -126,6 +132,7 @@ exports.deleteAuthor = async (req, res) => {
 
     return res.status(204).json({ status: 'success', data: deletedAuthor });
   } catch ({ message }) {
+    console.log(message);
     res.status(500).json(internalServerError(message));
   }
 };
