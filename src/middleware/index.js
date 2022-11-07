@@ -1,4 +1,4 @@
-const { unAuthorizedError, badRequestError } = require('../utils/utils');
+const { unAuthorizedError, badRequestError } = require('#utils');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 

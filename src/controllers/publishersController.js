@@ -1,5 +1,5 @@
-const { internalServerError, badRequestError } = require('../utils/utils');
-const { Publishers, Authors } = require('../../models');
+const { internalServerError, badRequestError } = require('#utils');
+const { Publishers, Authors } = require('#models');
 
 // get all publishers
 exports.getAllPublishers = async (req, res) => {

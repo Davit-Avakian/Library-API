@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-const app = require('../../app');
+const app = require('../../app.js/index.js');
 const request = supertest(app);
 
 describe('Publishers Router', () => {

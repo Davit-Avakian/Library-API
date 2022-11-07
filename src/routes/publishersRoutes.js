@@ -4,10 +4,10 @@ const {
   getAllPublishers,
   deletePublisher
 } = require('../controllers/publishersController');
-const { verifyRole } = require('../middleware');
+const { verifyRole } = require('#middleware');
 const {
   ROLES: { publisher }
-} = require('../utils/utils');
+} = require('#utils');
 
 const router = Router();
 

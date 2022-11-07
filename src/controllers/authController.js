@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
-const { Profile } = require('../../models');
-const { internalServerError, unAuthorizedError, badRequestError } = require('../utils/utils');
+const { Profile } = require('#models');
+const { internalServerError, unAuthorizedError, badRequestError } = require('#utils');
 require('dotenv').config();
 
 const transport = nodemailer.createTransport({

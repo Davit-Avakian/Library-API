@@ -1,15 +1,16 @@
 const express = require('express');
 
-const db = require('./models');
+const db = require('#models');
 const {
   authRouter,
   authorsRouter,
   booksRouter,
   publishersRouter,
   genresRouter
-} = require('./src/routes');
-const { verifyToken } = require('./src/middleware');
-const { Authors, Publishers, Publishers_Authors } = require('./models');
+} = require('#routes');
+const { verifyToken } = require('#middleware');
+const { Authors, Publishers, Publishers_Authors } = require('#models');
+
 const cors = require('cors');
 require('dotenv').config();
 

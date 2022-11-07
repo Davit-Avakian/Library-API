@@ -1,4 +1,4 @@
-const { badRequestError, unAuthorizedError } = require('../../src/utils/utils');
+const { badRequestError, unAuthorizedError } = require('#utils');
 const { registerUser, login, verifyUser } = require('../../src/controllers/authController');
 
 describe('Auth Controller Functions', () => {

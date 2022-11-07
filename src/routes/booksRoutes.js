@@ -8,10 +8,10 @@ const {
   getBooksByPublisherId,
   getBookById
 } = require('../controllers/booksController');
-const { verifyRole } = require('../middleware');
+const { verifyRole } = require('#middleware');
 const {
   ROLES: { publisher, author }
-} = require('../utils/utils');
+} = require('#utils');
 
 const router = Router();
 

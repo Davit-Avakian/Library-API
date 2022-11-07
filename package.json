@@ -3,20 +3,30 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "author": "",
+  "license": "ISC",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^#models": "<rootDir>/models/",
+      "^#utils": "<rootDir>/src/utils/",
+      "^#routes": "<rootDir>/src/routes/",
+      "^#middleware": "<rootDir>/src/middleware/",
+      "^#": "<rootDir>/src/"
+    }
+  },
   "imports": {
     "#routes": "./src/routes/index.js",
     "#models": "./models/index.js",
-    "#utils": "./src/utils/utils.js",
+    "#utils": "./src/utils/index.js",
     "#middleware": "./src/middleware/index.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

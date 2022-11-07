@@ -1,5 +1,5 @@
 const { internalServerError } = require('#utils');
-const { Genres } = require('../../models');
+const { Genres } = require('#models');
 
 exports.getAllGenres = async (req, res) => {
   try {

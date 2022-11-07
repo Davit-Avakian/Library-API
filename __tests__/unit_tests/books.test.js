@@ -1,4 +1,4 @@
-const { badRequestError } = require('../../src/utils/utils');
+const { badRequestError } = require('#utils');
 const {
   getAllBooks,
   getBookById,

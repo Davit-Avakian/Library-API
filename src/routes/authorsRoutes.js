@@ -6,10 +6,10 @@ const {
   getAllAuthors,
   deleteAuthor
 } = require('../controllers/authorsController.js');
-const { verifyRole } = require('../middleware');
+const { verifyRole } = require('#middleware');
 const {
   ROLES: { publisher, author }
-} = require('../utils/utils');
+} = require('#utils');
 
 const router = Router();
 

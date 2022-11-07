@@ -1,5 +1,6 @@
-const { internalServerError, unAuthorizedError, badRequestError } = require('../utils/utils');
-const { Authors, Books, Publishers } = require('../../models');
+const { internalServerError, unAuthorizedError, badRequestError } = require('#utils');
+
+const { Authors, Books, Publishers } = require('#models');
 const { Op } = require('sequelize');
 
 // get all authors

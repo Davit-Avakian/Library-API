@@ -1,5 +1,5 @@
-const { internalServerError, badRequestError } = require('../utils/utils');
-const { Books } = require('../../models');
+const { internalServerError, badRequestError } = require('#utils');
+const { Books } = require('#models');
 const { Op } = require('sequelize');
 
 // get all books
