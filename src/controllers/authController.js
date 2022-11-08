@@ -61,8 +61,6 @@ exports.registerUser = async (req, res) => {
           console.log('Sending Email Failed: ', err);
           return;
         }
-
-        console.log('Email sent');
       }
     );
 
