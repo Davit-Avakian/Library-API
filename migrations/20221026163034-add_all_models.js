@@ -159,15 +159,8 @@ module.exports = {
         }
       },
 
-      genre_id: {
-        type: Sequelize.UUID,
-        validate: {
-          notEmpty: true
-        },
-        references: {
-          model: 'genres',
-          key: 'id'
-        }
+      genre_ids: {
+        type: Sequelize.ARRAY(Sequelize.UUID)
       }
     });
 
@@ -243,7 +236,8 @@ module.exports = {
       username: {
         type: Sequelize.STRING,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          is: /^[a-zA-z0-9]/i
         }
       },
 
