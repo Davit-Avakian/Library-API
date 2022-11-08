@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-const app = require('../app');
+const app = require('../../src/routes');
 const request = supertest(app);
 
 describe('Auth Router', () => {
