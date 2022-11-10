@@ -92,9 +92,9 @@ exports.getBooksByPublisherId = async (req, res) => {
 // add new book
 exports.addNewBook = async (req, res) => {
   try {
-    const { title, author_id, publisher_id, genre } = req.body;
+    const { title, author_id, publisher_id, genre_ids } = req.body;
 
-    if (!title | !author_id | !publisher_id | genre) {
+    if (!title | !author_id | !publisher_id | genre_ids) {
       res.status(400).json(badRequestError('Data missing'));
       return;
     }
