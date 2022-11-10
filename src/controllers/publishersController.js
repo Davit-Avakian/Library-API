@@ -56,6 +56,25 @@ exports.getPublishersByAuthorId = async (req, res) => {
   }
 };
 
+// add new publisher
+exports.addNewPublisher = async (req, res) => {
+  try {
+    const { name, address, establishment_date } = req.body;
+
+    if (!name | !address | !establishment_date) {
+      res.status(400).json(badRequestError('Data missing'));
+      return;
+    }
+
+    // create new publisher
+    const createdPublisher = await Publishers.create(req.body);
+
+    res.status(201).json({ status: 'success', data: createdPublisher });
+  } catch ({ message }) {
+    res.status(500).json(internalServerError(message));
+  }
+};
+
 // delete publisher
 exports.deletePublisher = async (req, res) => {
   try {

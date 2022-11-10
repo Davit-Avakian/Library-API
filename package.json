@@ -9,6 +9,7 @@
     "start": "node app.js",
     "migrate:up": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "seeder": "npx sequelize-cli db:seed:all",
     "dev": "nodemon app.js",
     "test": "jest",
     "lint": "eslint .",
